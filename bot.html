@@ -150,9 +150,15 @@
       const last = history[history.length - 1];
       const tai = patternMap[`${last}→Tài`] || 0;
       const xiu = patternMap[`${last}→Xỉu`] || 0;
-      if (tai > xiu) return "Tài";
-      if (xiu > tai) return "Xỉu";
-      return null;
+
+      const diff = Math.abs(tai - xiu);
+
+      // Nếu chênh lệch nhỏ hoặc bằng nhau thì random (tăng độ khó bị bắt bài)
+      if (diff <= 1) {
+        return Math.random() > 0.5 ? "Tài" : "Xỉu";
+      }
+
+      return tai > xiu ? "Tài" : "Xỉu";
     }
 
     function showPrediction(predict) {
@@ -165,7 +171,7 @@
       setTimeout(() => {
         taiDot.className = "indicator";
         xiuDot.className = "indicator";
-      }, 15000); // 15 giây
+      }, 15000);
     }
 
     document.getElementById("startButton").onclick = () => {
@@ -174,7 +180,7 @@
       const dataRef = ref(db, "taixiu/");
       onChildAdded(dataRef, (snapshot) => {
         const now = Date.now();
-        if (now - lastProcessedTime < 50000) return; // 50 giây
+        if (now - lastProcessedTime < 50000) return;
 
         const val = snapshot.val();
         if (!val || typeof val.data !== 'string') return;
