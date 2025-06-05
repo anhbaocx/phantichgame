@@ -1,584 +1,330 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập Hệ Thống</title>  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> 
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: url("IMAGE/anh-nen-may-tinh-4k-chill_48991223469.jpg") no-repeat center/cover;
-            color: white;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        #game-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: black;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #game-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .login-box {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
-            text-align: center;
-            width: 450px;
-            color: white;
-            backdrop-filter: blur(10px);
-        }
-
-        .input-container {
-            position: relative;
-            width: 100%;
-            margin: 15px 0;
-        }
-
-        .input-container i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            color: white;
-        }
-
-        .form-control {
-            width: 100%;
-            height: 45px;
-            font-size: 16px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0 15px;
-            outline: none;
-        }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .btn-primary, .btn-secondary {
-            width: 48%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .btn-primary {
-            background: #e7e9ec;
-            color: black;
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #0056b3;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            text-align: left;
-            display: none;
-            margin-top: 5px;
-        }
-
-        .floating-window {
-            position: fixed;
-            top: 50px;
-            left: 50px;
-            width: 160px;
-            height: 80px;
-            background: rgba(128, 128, 128, 0.8);
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-            user-select: none;
-            cursor: grab;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-        }
-
-        .window-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 5px;
-            font-family: "Times New Roman", Times, serif;
-            font-weight: bold;
-            color: white;
-            position: absolute;
-            top: 0;
-        }
-
-        .label {
-            flex: 1;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .label.left {
-            text-align: left;
-            margin-left: 13px;
-        }
-
-        .label.right {
-            text-align: right;
-            margin-right: 3px;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: -20px;
-        }
-
-        .dice-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 28px;
-        }
-
-        .option-buttons {
-            display: flex;
-            justify-content: space-between;
-            width: 70%;
-            position: absolute;
-            bottom: 10px;
-        }
-
-        .btn-tai, .btn-xiu {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid white;
-            cursor: pointer;
-        }
-
-        .btn-tai {
-            background: rgb(7, 253, 7);
-            margin-left: 17px;
-        }
-
-        .btn-xiu {
-            background: red;
-            margin-right: -28px;
-        }
-
-        .start-game {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            background-color: red;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            z-index: 10000;
-        }
-
-        #infoModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 10002;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #infoModal div {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            padding: 20px;
-            border-radius: 15px;
-            max-width: 400px;
-            color: white;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        #infoModal h3 {
-            margin: 0 0 15px;
-            font-size: 20px;
-        }
-
-        #infoModal p {
-            margin: 0 0 20px;
-            line-height: 1.5;
-        }
-
-        #infoModal button {
-            background: linear-gradient(45deg, #00ccff, #0077ff);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chọn Game</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("IMAGE/anh-nen-may-tinh-4k-chill_48991223469.jpg") no-repeat center/cover;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .login-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+      text-align: center;
+      width: 450px;
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+    .form-control {
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    .form-control option {
+      color: black;
+    }
+    .btn-primary {
+      margin-top: 20px;
+      width: 100%;
+    }
+    #game-screen {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+    }
+    #game-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    #robot {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 9999;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: transparent;
+      cursor: grab;
+      user-select: none;
+    }
+    #robot img {
+      width: 70px;
+      height: auto;
+      animation: floatBot 2s ease-in-out infinite;
+    }
+    #robot .bubble {
+      background: white;
+      color: black;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      max-width: 250px;
+    }
+    @keyframes floatBot {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>ANH BẢO</h2>
-        <p>Uy tín làm nên thương hiệu</p>
-        
-        <form id="login-form">
-            <div class="input-container">
-                <i class="bx bx-link-alt"></i> 
-                <input type="text" class="form-control" id="webgame-link" placeholder="Link webgame">
-            </div>
-            <div id="link-error" class="error-message">Vui lòng nhập link webgame.</div>
+  <div class="login-box">
+    <h2>ANH BẢO</h2>
+    <p>Vui lòng chọn game để sử dụng</p>
+    <form id="game-form">
+      <select id="game-select" class="form-control" required>
+        <option value="">-- Chọn game --</option>
+        <option value="sunwin">SunWin</option>
+        <option value="68">68GameBai</option>
+      </select>
+      <button type="submit" class="btn btn-primary">XÂM NHẬP</button>
+    </form>
+  </div>
 
-            <div class="input-container">
-                <i class="bx bx-lock-alt"></i>
-                <input type="password" class="form-control" id="software-key" placeholder="Mã key">
-            </div>
-            <div id="key-error" class="error-message">Vui lòng nhập mã key.</div>
-
-            <div class="button-container">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='register.html'">QUAY LẠI</button>
-                <button type="submit" class="btn btn-primary">XÂM NHẬP</button>
-            </div>
-        </form>
+  <div id="game-screen">
+    <iframe id="game-frame"></iframe>
+    <div id="robot">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="robot" />
+      <div class="bubble" id="robot-text">Chờ phiên mới...</div>
     </div>
+  </div>
 
-    <button id="infoButton" style="position: absolute; top: 20px; right: 20px; z-index: 10001; background: linear-gradient(45deg, #ffcc00, #ff9900); color: white; box-shadow: 0 4px 15px rgba(255, 204, 0, 0.4); padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
-        Thông Báo
-    </button>
-    
-    <div id="infoModal">
-        <div>
-            <h3>Thông Báo</h3>
-            <p>
-                Tool chỉ hỗ trợ các web có thể mở được.<br>
-                <strong>Lưu ý:</strong> Tool không hoàn toàn đúng 100%, chỉ hỗ trợ 75-80%. Nếu ae mà đánh gãy liên tục 3-5 tay liên tục nên nghỉ 30 phút.<br>
-                Cảm ơn tất cả AE tin tưởng và ủng hộ!
-            </p>
-            <button onclick="closeModal()">Đóng</button>
-        </div>
-    </div>
+  <script>
+    const robot = document.getElementById("robot");
+    const robotText = document.getElementById("robot-text");
+    let isDragging = false, dragOffsetX = 0, dragOffsetY = 0;
 
-    <div id="game-container" style="display: none;">
-        <button class="start-game" onclick="startPrediction()">Bắt đầu</button>
-        <iframe id="game-frame"></iframe>
-        <div id="floating-window" class="floating-window">
-            <div class="window-header">
-                <span class="label left">Tài</span>
-                <span class="label right">Xỉu</span>
-                <button class="close-btn" onclick="closeFloatingWindow()">✕</button>
-            </div>
-            <div class="dice-icon">🎲</div>
-            <div class="option-buttons">
-                <button id="btn-tai" class="btn-tai" onclick="chooseOption('tai')"></button>
-                <button id="btn-xiu" class="btn-xiu" onclick="chooseOption('xiu')"></button>
-            </div>
-        </div>
-    </div>
+    robot.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      dragOffsetX = e.clientX - robot.getBoundingClientRect().left;
+      dragOffsetY = e.clientY - robot.getBoundingClientRect().top;
+      robot.style.cursor = "grabbing";
+    });
+    document.addEventListener("mousemove", (e) => {
+      if (isDragging) {
+        robot.style.left = Math.max(0, e.clientX - dragOffsetX) + "px";
+        robot.style.top = Math.max(0, e.clientY - dragOffsetY) + "px";
+      }
+    });
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      robot.style.cursor = "grab";
+    });
 
-    <script type="module">
-         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-         import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    let ws = null, history = [], lastSession = null, sessionPredicted = null, predictTimer = null, isWaiting = false;
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBhkIlS7sJlVbZ6A9ZKMeYiH5ZyDJbmY1w",
-      authDomain: "taixiu-official.firebaseapp.com",
-      databaseURL: "https://taixiu-official-default-rtdb.firebaseio.com",
-      projectId: "taixiu-official",
-      storageBucket: "taixiu-official.appspot.com",
-      messagingSenderId: "460194169578",
-      appId: "1:460194169578:web:6e3f61725cb0d7c88d8d93",
-      measurementId: "G-KH4NVKC9C4"
-        };
+    function predictNext(history) {
+      while (history.length < 6) {
+        const fakeDice = Array.from({ length: 3 }, () => 1 + Math.floor(Math.random() * 6));
+        const fakeTotal = fakeDice.reduce((a, b) => a + b, 0);
+        history.push({ result: fakeTotal >= 11 ? "TÀI" : "XỈU", total: fakeTotal, fake: true });
+      }
 
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
+      const recent = history.slice(-6);
+      const results = recent.map(h => h.result === "TÀI" ? "T" : "X");
+      const totals = recent.map(h => h.total);
 
-        async function verifyKey(key) {
-            try {
-                const usersRef = ref(database, "users");
-                const snapshot = await get(usersRef);
-                if (snapshot.exists()) {
-                    const users = snapshot.val();
-                    for (const userId in users) {
-                        if (users[userId].key === key) {
-                            console.log("✅ Key hợp lệ:", users[userId]);
-                            return true;
-                        }
-                    }
-                }
-                console.log("❌ Key không tồn tại!");
-                return false;
-            } catch (error) {
-                console.error("🔥 Lỗi Firebase:", error);
-                return false;
-            }
+      const last = results.at(-1);
+      const last2 = results.slice(-2).join("");
+      const last3 = results.slice(-3).join("");
+      const last4 = results.slice(-4).join("");
+      const last6 = results.join("");
+
+      let prediction = null;
+      let confidence = 51;
+
+      // Bệt dài → đảo
+      if (/T{3,}/.test(last6)) prediction = "XỈU", confidence += 15;
+      else if (/X{3,}/.test(last6)) prediction = "TÀI", confidence += 15;
+
+      // Cầu lặp
+      if (!prediction && (last4 === "TXTX" || last4 === "XTXT")) {
+        prediction = last === "T" ? "XỈU" : "TÀI";
+        confidence += 10;
+      }
+
+      // Cầu 2-1-2
+      if (!prediction && (last3 === "TTX" || last3 === "XXT")) {
+        prediction = last3 === "TTX" ? "TÀI" : "XỈU";
+        confidence += 8;
+      }
+
+      // Biến động tổng lớn → đảo
+      const vol = totals.slice(1).reduce((acc, t, i) => acc + Math.abs(t - totals[i]), 0) / 5;
+      if (!prediction && vol > 4.5) {
+        prediction = last === "T" ? "XỈU" : "TÀI";
+        confidence += 5;
+      }
+
+      // Tỷ lệ nghiêng hẳn
+      const tCount = results.filter(r => r === "T").length;
+      const xCount = results.length - tCount;
+      if (!prediction && tCount >= 5) prediction = "XỈU", confidence += 4;
+      else if (!prediction && xCount >= 5) prediction = "TÀI", confidence += 4;
+
+      // Mặc định
+      if (!prediction) {
+        prediction = last === "T" ? "XỈU" : "TÀI";
+        confidence += 2;
+      }
+
+      confidence += Math.random() * 2;
+
+      return { result: prediction, confidence: confidence.toFixed(2) };
+    }
+
+    function startPredict(sessionId) {
+      clearInterval(predictTimer);
+      sessionPredicted = sessionId;
+      const p = predictNext(history);
+      robotText.innerHTML = `#${sessionId} : ${p.result}<br>Độ tin cậy: ${p.confidence}%`;
+    }
+
+    function waitThenPredict(sessionId) {
+      clearInterval(predictTimer);
+      robotText.innerText = "⏳ Chờ phiên mới...";
+      isWaiting = true;
+      setTimeout(() => {
+        isWaiting = false;
+        startPredict(sessionId + 1);
+      }, 20000);
+    }
+
+    function connectWS(url, type = "sunwin") {
+      ws = new WebSocket(url);
+      ws.onopen = () => robotText.innerText = "Đã kết nối, chờ phiên...";
+      ws.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data);
+          let session, dice, total, result;
+          if (type === "sunwin") {
+            session = parseInt(data.Phien);
+            dice = [data.Xuc_xac_1, data.Xuc_xac_2, data.Xuc_xac_3];
+            total = data.Tong;
+            result = data.Ket_qua;
+          } else if (type === "68") {
+            session = parseInt(data.sid);
+            dice = [data.Xuc_xac_1, data.Xuc_xac_2, data.Xuc_xac_3];
+            total = data.Tong;
+            result = data.Ket_qua;
+          }
+          if (session !== lastSession) {
+            lastSession = session;
+            history.push({ session, dice, total, result });
+            if (history.length > 50) history.shift();
+            if (session === sessionPredicted) waitThenPredict(session);
+            else if (!sessionPredicted && !isWaiting) startPredict(session + 1);
+          }
+        } catch (err) {
+          console.error("Lỗi dữ liệu:", err);
         }
+      };
+      ws.onerror = () => robotText.innerText = "WebSocket lỗi...";
+      ws.onclose = () => {
+        robotText.innerText = "Mất kết nối, đang thử lại...";
+        setTimeout(() => connectWS(url, type), 3000);
+      };
+    }
 
-        // Hàm toàn cục
-        window.closeModal = function () {
-            document.getElementById("infoModal").style.display = "none";
-        };
+    document.getElementById("game-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const selected = document.getElementById("game-select").value;
+      if (!selected) {
+        alert("Vui lòng chọn game!");
+        return;
+      }
+      document.querySelector(".login-box").style.display = "none";
+      document.getElementById("game-screen").style.display = "block";
+      if (selected === "sunwin") {
+        document.getElementById("game-frame").src = "https://play.sun.win/?affId=Sunwin";
+        connectWS("ws://163.61.110.10:8000/game_sunwin/ws?id=anhbaocx&key=khanhduanhbaocx12", "sunwin");
+      } else if (selected === "68") {
+        document.getElementById("game-frame").src = "https://68gbvn25.cc";
+        connectWS("ws://localhost:8765", "68");
+      }
+    });
+  </script>
 
-        window.closeFloatingWindow = function () {
-            document.getElementById("floating-window").style.display = "none";
-        };
+  <script>
+    (function() {
+      let devtoolsOpen = false;
+      const threshold = 160;
 
-        window.openGame = function (url) {
-            document.querySelector(".login-box").style.display = "none";
-            document.getElementById("game-container").style.display = "block";
-            document.getElementById("game-frame").src = url;
-            // Ẩn nút "Thông Báo" khi mở trò chơi
-            document.getElementById("infoButton").style.display = "none";
-        };
+      const warningDiv = document.createElement('div');
+      warningDiv.style.position = 'fixed';
+      warningDiv.style.top = '0';
+      warningDiv.style.left = '0';
+      warningDiv.style.width = '100vw';
+      warningDiv.style.height = '100vh';
+      warningDiv.style.backgroundColor = 'black';
+      warningDiv.style.color = 'red';
+      warningDiv.style.fontSize = '48px';
+      warningDiv.style.fontWeight = 'bold';
+      warningDiv.style.display = 'flex';
+      warningDiv.style.justifyContent = 'center';
+      warningDiv.style.alignItems = 'center';
+      warningDiv.style.zIndex = '99999999';
+      warningDiv.style.textAlign = 'center';
+      warningDiv.style.padding = '20px';
+      warningDiv.style.userSelect = 'none';
+      warningDiv.style.fontFamily = 'Arial, sans-serif';
+      warningDiv.style.lineHeight = '1.2';
+      warningDiv.innerText = '🚫 Cấm mở dev dcm 🚫';
 
-        window.exitGame = function () {
-            document.getElementById("game-container").style.display = "none";
-            document.querySelector(".login-box").style.display = "block";
-            document.getElementById("game-frame").src = "";
-            // Hiển thị lại nút "Thông Báo" khi thoát trò chơi
-            document.getElementById("infoButton").style.display = "block";
-        };
+      function blockPage() {
+        document.documentElement.innerHTML = '';
+        document.body.appendChild(warningDiv);
+      }
 
-        let isPredicting = false;
-        window.startPrediction = function () {
-            if (isPredicting) {
-                console.log("Dự đoán đang chạy, vui lòng chờ!");
-                return;
-            }
-            isPredicting = true;
-            document.getElementById("game-container").style.display = "block";
-            document.querySelector(".login-box").style.display = "none";
-            console.log("Bắt đầu dự đoán...");
-            startCycle();
-        };
+      function detectDevTools() {
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
 
-        function chooseOption(option) {
-            console.log("Bạn đã chọn:", option);
+        if (widthThreshold || heightThreshold) {
+          if (!devtoolsOpen) {
+            devtoolsOpen = true;
+            blockPage();
+          }
+        } else {
+          if (devtoolsOpen) {
+            devtoolsOpen = false;
+            location.reload();
+          }
         }
+      }
 
-        let lastPrediction = null;
-        function randomPrediction() {
-            return Math.random() < 0.5 ? "xiu" : "tai";
+      setInterval(detectDevTools, 500);
+
+      window.addEventListener('contextmenu', e => e.preventDefault());
+
+      window.addEventListener('keydown', e => {
+        if (
+          e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+          (e.ctrlKey && e.key === 'U')
+        ) {
+          e.preventDefault();
+          blockPage();
         }
-
-        function blinkButton(buttonId, duration, callback) {
-            const button = document.getElementById(buttonId);
-            if (!button) {
-                console.error("Không tìm thấy nút:", buttonId);
-                return;
-            }
-
-            document.getElementById("btn-tai").style.visibility = "visible";
-            document.getElementById("btn-xiu").style.visibility = "visible";
-
-            let isVisible = true;
-            const interval = setInterval(() => {
-                button.style.visibility = isVisible ? "hidden" : "visible";
-                isVisible = !isVisible;
-            }, 300);
-
-            setTimeout(() => {
-                clearInterval(interval);
-                button.style.visibility = "visible";
-                console.log("Đã dừng nhấp nháy, chờ 15 giây...");
-                setTimeout(() => {
-                    isPredicting = false;
-                    callback();
-                }, 15000);
-            }, duration);
-        }
-
-        function startCycle() {
-            console.log("Chờ 10 giây để phân tích...");
-            setTimeout(() => {
-                const prediction = randomPrediction();
-                const buttonId = prediction === "tai" ? "btn-tai" : "btn-xiu";
-                console.log("Dự đoán:", prediction);
-                lastPrediction = prediction;
-                blinkButton(buttonId, 40000, startCycle);
-            }, 10000);
-        }
-
-        // Kéo thả cửa sổ nổi
-        const floatingWindow = document.getElementById("floating-window");
-        let isDragging = false;
-        let offsetX = 0, offsetY = 0;
-
-        function startDrag(e) {
-            isDragging = true;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            offsetX = clientX - floatingWindow.getBoundingClientRect().left;
-            offsetY = clientY - floatingWindow.getBoundingClientRect().top;
-            floatingWindow.style.cursor = "grabbing";
-        }
-
-        function onDrag(e) {
-            if (!isDragging) return;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            const newX = clientX - offsetX;
-            const newY = clientY - offsetY;
-            floatingWindow.style.left = `${newX}px`;
-            floatingWindow.style.top = `${newY}px`;
-        }
-
-        function endDrag() {
-            isDragging = false;
-            floatingWindow.style.cursor = "grab";
-        }
-
-        floatingWindow.addEventListener("mousedown", startDrag);
-        floatingWindow.addEventListener("touchstart", startDrag);
-        document.addEventListener("mousemove", onDrag);
-        document.addEventListener("touchmove", onDrag);
-        document.addEventListener("mouseup", endDrag);
-        document.addEventListener("touchend", endDrag);
-
-        // Sự kiện DOM
-        document.addEventListener("DOMContentLoaded", () => {
-            // Hiển thị modal thông báo ngay khi trang tải
-            document.getElementById("infoModal").style.display = "flex";
-
-            // Đăng nhập
-            document.getElementById("login-form").addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const webgameLink = document.getElementById("webgame-link").value.trim();
-                const userKey = document.getElementById("software-key").value.trim();
-                const linkError = document.getElementById("link-error");
-                const keyError = document.getElementById("key-error");
-
-                linkError.style.display = "none";
-                keyError.style.display = "none";
-
-                if (!webgameLink) {
-                    linkError.style.display = "block";
-                    return;
-                }
-
-                if (!userKey) {
-                    keyError.textContent = "Vui lòng nhập mã key.";
-                    keyError.style.display = "block";
-                    return;
-                }
-
-                const isValidKey = await verifyKey(userKey);
-                if (!isValidKey) {
-                    keyError.textContent = "Mã key không hợp lệ!";
-                    keyError.style.display = "block";
-                    return;
-                }
-
-                localStorage.setItem("software-key", userKey);
-                openGame(webgameLink);
-            });
-
-            // Nút thông báo
-            document.getElementById("infoButton").addEventListener("click", () => {
-                document.getElementById("infoModal").style.display = "flex";
-            });
-
-            // Game frame load
-            document.getElementById("game-frame").onload = () => {
-                console.log("Game đã load, chờ nhấn 'Bắt đầu'...");
-            };
-
-            // Tự động mở floating window sau 3 giây
-            setTimeout(() => {
-                document.getElementById("floating-window").style.display = "block";
-            }, 3000);
-        });
-
-
-            document.addEventListener("keydown", (event) => {
-                if (
-                    event.keyCode === 123 ||
-                    (event.ctrlKey && event.shiftKey && event.keyCode === 73) ||
-                    (event.ctrlKey && event.shiftKey && event.keyCode === 74) ||
-                    (event.ctrlKey && event.keyCode === 85)
-                ) {
-                    event.preventDefault();
-                }
-            });
-
-            document.addEventListener("contextmenu", (event) => {
-                event.preventDefault();
-            });
-
-            const originalLog = console.log;
-            console.log = function () {
-                if (detectDevTools()) return;
-                originalLog.apply(console, arguments);
-            };
-        ;
-    </script>
+      });
+    })();
+  </script>
 </body>
 </html>

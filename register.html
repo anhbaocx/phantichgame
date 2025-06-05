@@ -118,7 +118,7 @@
         }
 
         .support a {
-            color: #dcdc05;
+            color: #ecec04;
             text-decoration: none;
         }
 
@@ -416,12 +416,15 @@
         }
 
         function closeModal() {
-            // Ẩn modal thông báo
-            document.getElementById('success-modal').style.display = 'none';
-            
-            // Chuyển qua phần đăng nhập
-            toggleForm();
-        }
+    // Ẩn modal thông báo
+    document.getElementById('success-modal').style.display = 'none';
+    
+    // Chuyển qua phần đăng nhập
+    toggleForm();
+}
+
+
+
 
         document.addEventListener("DOMContentLoaded", function () {
             const database = firebase.database();
@@ -588,8 +591,10 @@
         ;
 
         function showLoginSuccessModal() {
-            document.getElementById('login-success-modal').style.display = 'flex';
-        }
+    window.location.href = "login.html";
+}
+
+
 
         function closeLoginModal() {
             document.getElementById('login-success-modal').style.display = 'none';
